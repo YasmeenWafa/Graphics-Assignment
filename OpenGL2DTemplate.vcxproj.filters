@@ -21,9 +21,6 @@
     <ClCompile Include="OpenGL2DTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Batman_21529.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="assignment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -4,13 +4,20 @@
 #include <stdio.h> 
 #include <math.h>
 
-void Display(void);
-void Anim(void);
+
 double x;
 double y;
-double xcord=400;
-double ycord = 400;
 
+double xcord = 225;
+double ycord = 225;
+int score = 0;
+double x_ = xcord + 50;
+double y_ = ycord;
+
+
+void Display(void);
+void Anim(void);
+void move(int,int);
 void main(int argc, char** argr)
 {
 	glutInit(&argc, argr);
@@ -21,7 +28,7 @@ void main(int argc, char** argr)
 	  glutDisplayFunc(Display);
 	  glutIdleFunc(Anim);
 	  glPointSize(25);
-
+	  glutPassiveMotionFunc(move);
 	  glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	  gluOrtho2D(0.0, 500.0, 0.0, 500.0);
 	  glutMainLoop();
@@ -34,13 +41,13 @@ void Display(void)
 
 	//glColor3f(1.0f, 0.0f, 0.0f);
 	
-
+	//CHASER
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 0.0f);
 	
 	glTranslated(x, y, 0);
 	glRotated(-30, 0, 0, 1);
-	glBegin(GL_POLYGON);
+	glBegin(GL_QUADS);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 50.0f, 0.0f);
 	glVertex3f(50.0f, 50.0f, 0.0f);
@@ -56,12 +63,39 @@ void Display(void)
 	glVertex3f(25.0f, 75.0f, 0.0f);
 	glEnd();
 	glPopMatrix();
-
+	
+	
+	//
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glTranslated(xcord, ycord, 0);
 	//glRotated(-30, 0, 0, 1);
-	glBegin(GL_POLYGON);
+	glBegin(GL_QUADS);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 50.0f, 0.0f);
+	glVertex3f(50.0f, 50.0f, 0.0f);
+	glVertex3f(50.0f, 0.0f, 0.0f);
+	glEnd();
+
+
+	glColor3f(1.0f, 0.0f, 1.0f);
+
+	glBegin(GL_TRIANGLES); // GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN
+	glVertex3f(0.0f, 50.0f, 0.0f);
+	glVertex3f(50.0f, 50.0f, 0.0f);
+	glVertex3f(25.0f, 75.0f, 0.0f);
+	glEnd();
+	glPopMatrix();
+
+	//object chased
+
+	glPushMatrix();
+	glColor3f(0.0f, 1.0f, 0.0f);
+
+	glTranslated(x_, y_, 0);
+	glRotated(-120, 0, 0, 1);
+	
+	glBegin(GL_QUADS);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 50.0f, 0.0f);
 	glVertex3f(50.0f, 50.0f, 0.0f);
@@ -77,66 +111,42 @@ void Display(void)
 	glVertex3f(25.0f, 75.0f, 0.0f);
 	glEnd();
 	glPopMatrix();
-
-	//1st shape
-	//glColor3f(1.0f, 1.0f, 0.0f);
-
-
-	//glBegin(GL_POLYGON);
-	//glVertex3f(200.0f, 200.0f, 0.0f);
-	//glVertex3f(200.0f, 250.0f, 0.0f);
-	//glVertex3f(250.0f, 250.0f, 0.0f);
-	//glVertex3f(250.0f, 200.0f, 0.0f);
-	//glEnd();
-
-
-	//glColor3f(1.0f, 0.0f, 0.0f);
-
-	//glBegin(GL_TRIANGLES); // GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN
-	//glVertex3f(200.0f, 250.0f, 0.0f);
-	//glVertex3f(250.0f, 250.0f, 0.0f);
-	//glVertex3f(225.0f, 275.0f, 0.0f);
-	//glEnd();
-	////
-
-
-	//////////
-	 	
-
-
-	///////////
-
-
-	//glColor3f(1.0f, 1.0f, 0.0f);
-
-
-	//glBegin(GL_POLYGON);
-	//glVertex3f(300.0f, 300.0f, 0.0f);
-	//glVertex3f(300.0f, 350.0f, 0.0f);
-	//glVertex3f(350.0f, 350.0f, 0.0f);
-	//glVertex3f(350.0f, 300.0f, 0.0f);
-	//glEnd();
-
-
-	//glColor3f(1.0f, 0.0f, 0.0f);
-
-	//glBegin(GL_TRIANGLES); // GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN
-	//glVertex3f(300.0f, 350.0f, 0.0f);
-	//glVertex3f(350.0f, 350.0f, 0.0f);
-	//glVertex3f(325.0f, 375.0f, 0.0f);
-	//glEnd();
 
 	glFlush();
 }
 
 void Anim(void)
 {
-	if (x == xcord || y == ycord) {
+	if ((x >= xcord-50 && x<= xcord) &&( y >= ycord-50 && y<= ycord)) {
 		x = 0;
 		y = 0;
+		//printf("hi");
+		score--;
 	}
-	
-	x += 0.01;
-	y += 0.01;
+	if (xcord <= x_ + 50 && xcord >= x_)
+	{
+		score++;
+		
+	}
+	if (x_ <= 500 && x_ >= 499)
+	{
+		x_ = xcord + 50;
+		y_ = ycord;
+	}
+
+	x += 0.04;
+	y += 0.04;
+
+	x_ += 0.04;
+	y_ -= 0.04;
 	glutPostRedisplay();
+}
+void move(int xx, int yy)
+{
+	xcord = x - 25;
+	ycord = 500 - y - 25;
+	x = xx;
+	y = 500- yy;
+	x_ = xx;
+	y_ = 500 -yy;
 }

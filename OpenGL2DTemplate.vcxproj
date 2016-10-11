@@ -82,7 +82,6 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Batman_21529.cpp" />
     <ClCompile Include="assignment.cpp" />
     <ClCompile Include="OpenGL2DTemplate.cpp" />
   </ItemGroup>
