@@ -13,7 +13,10 @@ double ycord = 225;
 int score = 0;
 double x_ = xcord + 50;
 double y_ = ycord;
-
+double vecX;
+double vecY;
+double vecX_;
+double vecY_;
 
 void Display(void);
 void Anim(void);
@@ -133,20 +136,32 @@ void Anim(void)
 		x_ = xcord + 50;
 		y_ = ycord;
 	}
+	
+	
+	vecX = xcord - x;
+	vecY = ycord - y;
+	
+	vecX_ = x - xcord;
+	vecY_ = y - ycord;
 
-	x += 0.04;
-	y += 0.04;
+	double length = sqrt((vecX*vecX) + (vecY*vecY));
+	double length_ = sqrt((vecX_*vecX_) + (vecY_*vecY_));
 
-	x_ += 0.04;
-	y_ -= 0.04;
+	x += (vecX/length);
+	y += (vecY/length);
+
+	x_ += (vecX_ / length_);
+	y_ -= (vecY_ / length_);
 	glutPostRedisplay();
 }
 void move(int xx, int yy)
 {
-	xcord = x - 25;
-	ycord = 500 - y - 25;
-	x = xx;
+	xcord = xx - 25;
+	ycord = 500 - yy - 25;
+	/*x = xx;
 	y = 500- yy;
 	x_ = xx;
-	y_ = 500 -yy;
+	y_ = 500 -yy;*/
 }
+
+
