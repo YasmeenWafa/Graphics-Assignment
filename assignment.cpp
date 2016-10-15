@@ -11,8 +11,8 @@ double y;
 double xcord = 225;
 double ycord = 225;
 int score = 0;
-double x_ = xcord + 50;
-double y_ = ycord;
+double x_ = 0;
+double y_ = 500;
 double vecX;
 double vecY;
 double vecX_;
@@ -60,7 +60,7 @@ void Display(void)
 	glColor3f(1.0f, 1.0f, 0.0f);
 	
 	glTranslated(x, y, 0);
-	//glRotated(angle, 0, 0, 1);
+	glRotated(angle, 0, 0, 1);
 	glBegin(GL_QUADS);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 50.0f, 0.0f);
@@ -107,7 +107,7 @@ void Display(void)
 	glColor3f(0.0f, 1.0f, 0.0f);
 
 	glTranslated(x_, y_, 0);
-	glRotated(-120, 0, 0, 1);
+	glRotated(angle, 0, 0, 1);
 	
 	glBegin(GL_QUADS);
 	glVertex3f(0.0f, 0.0f, 0.0f);
@@ -139,6 +139,8 @@ void Anim(void)
 	}
 	if (xcord <= x_ + 50 && xcord >= x_)
 	{
+		x_ = 0;
+		y_ = 500;
 		score++;
 		
 	}
@@ -152,8 +154,8 @@ void Anim(void)
 	vecX = xcord - x;
 	vecY = ycord - y;
 	
-	vecX_ = x - x_;
-	vecY_ = y - y_;
+	/*vecX_ = x - x_;
+	vecY_ = y - y_;*/
 
 	double length = sqrt((vecX*vecX) + (vecY*vecY));
 	double length_ = sqrt((vecX_*vecX_) + (vecY_*vecY_));
@@ -161,41 +163,34 @@ void Anim(void)
 	x += (vecX/length)-0.65;
 	y += (vecY/length)-0.65;
 
-	x_ += (vecX_ / length_)-0.5;
-	y_ += (vecY_ / length_)-0.5;
+	x_ += 0.04;
+	y_ -= 0.04;
+	/*x_ += (vecX_ / length_);
+	y_ += (vecY_ / length_);*/
 
 
-	if (glutGet(GLUT_ELAPSED_TIME) == 30000)
+	if (glutGet(GLUT_ELAPSED_TIME) == 300000) //5 minutes
 	{
 		printf("hi");
-		main;
+		glutEnterGameMode(); // it stops execution
+	
+		
 
 	}
 
 	glutPostRedisplay();
 }
+
 void move(int xx, int yy)
 {
 	xcord = xx - 25;
 	ycord = 500 - yy - 25;
 
-	VectorX = xx - xcord;
-	VectorY = yy - ycord;
+	VectorX =  xcord-xx;
+	VectorY = ycord - yy;
 
 	angle = atan2(VectorX, VectorY) * (180 / PI);
 
-	/*if (xcord > 200 && ycord >200)
-	
-		angle = -30;
-	
-		if (xcord > 200 && ycord < 200)
-		angle = -120;
-	
-			if (xcord < 200 && ycord < 200)
-		angle = 270;
-
-	if(xcord<200 && ycord>200)
-		angle = 30;*/
 	
 }
 
