@@ -17,24 +17,36 @@ double vecX;
 double vecY;
 double vecX_;
 double vecY_;
+double VectorX;
+double VectorY;
+const double PI = 3.141592653589793238463;
+double angle;
 
 void Display(void);
 void Anim(void);
 void move(int,int);
+
+
 void main(int argc, char** argr)
 {
+	
+
 	glutInit(&argc, argr);
 	  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	  glutInitWindowSize(500, 500);
+	  
 	  glutInitWindowPosition(50, 50);
 	  glutCreateWindow("trial");
 	  glutDisplayFunc(Display);
+	  //glutFullScreen();
 	  glutIdleFunc(Anim);
 	  glPointSize(25);
 	  glutPassiveMotionFunc(move);
+	 
 	  glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	  gluOrtho2D(0.0, 500.0, 0.0, 500.0);
 	  glutMainLoop();
+	
 }
 
 void Display(void)
@@ -42,14 +54,13 @@ void Display(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 
-	//glColor3f(1.0f, 0.0f, 0.0f);
 	
 	//CHASER
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 0.0f);
 	
 	glTranslated(x, y, 0);
-	glRotated(-30, 0, 0, 1);
+	//glRotated(angle, 0, 0, 1);
 	glBegin(GL_QUADS);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 50.0f, 0.0f);
@@ -67,12 +78,12 @@ void Display(void)
 	glEnd();
 	glPopMatrix();
 	
-	
+	//Player
 	//
 	glPushMatrix();
 	glColor3f(1.0f, 1.0f, 0.0f);
 	glTranslated(xcord, ycord, 0);
-	//glRotated(-30, 0, 0, 1);
+	glRotated(angle, 0, 0, 1);
 	glBegin(GL_QUADS);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 50.0f, 0.0f);
@@ -120,7 +131,7 @@ void Display(void)
 
 void Anim(void)
 {
-	if ((x >= xcord-50 && x<= xcord) &&( y >= ycord-50 && y<= ycord)) {
+	if ((x >= xcord-50 && x<= xcord)) {
 		x = 0;
 		y = 0;
 		//printf("hi");
@@ -133,35 +144,60 @@ void Anim(void)
 	}
 	if (x_ <= 500 && x_ >= 499)
 	{
-		x_ = xcord + 50;
-		y_ = ycord;
+		x_ = 0;
+		y_ = 500;
 	}
 	
 	
 	vecX = xcord - x;
 	vecY = ycord - y;
 	
-	vecX_ = x - xcord;
-	vecY_ = y - ycord;
+	vecX_ = x - x_;
+	vecY_ = y - y_;
 
 	double length = sqrt((vecX*vecX) + (vecY*vecY));
 	double length_ = sqrt((vecX_*vecX_) + (vecY_*vecY_));
 
-	x += (vecX/length);
-	y += (vecY/length);
+	x += (vecX/length)-0.65;
+	y += (vecY/length)-0.65;
 
-	x_ += (vecX_ / length_);
-	y_ -= (vecY_ / length_);
+	x_ += (vecX_ / length_)-0.5;
+	y_ += (vecY_ / length_)-0.5;
+
+
+	if (glutGet(GLUT_ELAPSED_TIME) == 30000)
+	{
+		printf("hi");
+		main;
+
+	}
+
 	glutPostRedisplay();
 }
 void move(int xx, int yy)
 {
 	xcord = xx - 25;
 	ycord = 500 - yy - 25;
-	/*x = xx;
-	y = 500- yy;
-	x_ = xx;
-	y_ = 500 -yy;*/
+
+	VectorX = xx - xcord;
+	VectorY = yy - ycord;
+
+	angle = atan2(VectorX, VectorY) * (180 / PI);
+
+	/*if (xcord > 200 && ycord >200)
+	
+		angle = -30;
+	
+		if (xcord > 200 && ycord < 200)
+		angle = -120;
+	
+			if (xcord < 200 && ycord < 200)
+		angle = 270;
+
+	if(xcord<200 && ycord>200)
+		angle = 30;*/
+	
 }
+
 
 
