@@ -11,8 +11,8 @@ double y;
 double xcord = 225;
 double ycord = 225;
 int score = 0;
-double x_ = 0;
-double y_ = 500;
+double x_ = xcord+ 50;
+double y_ = ycord+50;
 double vecX;
 double vecY;
 double vecX_;
@@ -137,25 +137,25 @@ void Anim(void)
 		//printf("hi");
 		score--;
 	}
-	if (xcord <= x_ + 50 && xcord >= x_)
+	if (xcord >= x_ && xcord <= x_ + 50)
 	{
-		x_ = 0;
-		y_ = 500;
+		x_ = xcord+50;
+		y_ = ycord +50;
 		score++;
 		
 	}
 	if (x_ <= 500 && x_ >= 499)
 	{
-		x_ = 0;
-		y_ = 500;
+		x_ = xcord +50;
+		y_ = ycord +50;
 	}
 	
 	
 	vecX = xcord - x;
 	vecY = ycord - y;
 	
-	/*vecX_ = x - x_;
-	vecY_ = y - y_;*/
+	vecX_ = x_ - xcord;
+	vecY_ = y_ - ycord;
 
 	double length = sqrt((vecX*vecX) + (vecY*vecY));
 	double length_ = sqrt((vecX_*vecX_) + (vecY_*vecY_));
@@ -163,10 +163,9 @@ void Anim(void)
 	x += (vecX/length)-0.65;
 	y += (vecY/length)-0.65;
 
-	x_ += 0.04;
-	y_ -= 0.04;
-	/*x_ += (vecX_ / length_);
-	y_ += (vecY_ / length_);*/
+	x_ += (vecX_ / length_)-0.65;
+	y_ -= (vecY_ / length_)-0.65;
+
 
 
 	if (glutGet(GLUT_ELAPSED_TIME) == 300000) //5 minutes
